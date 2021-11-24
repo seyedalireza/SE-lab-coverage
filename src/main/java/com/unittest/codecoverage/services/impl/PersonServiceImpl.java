@@ -12,7 +12,8 @@ import com.unittest.codecoverage.services.PersonService;
 @Service
 public class PersonServiceImpl implements PersonService {
 	
-	private PersonValidator validator;
+	private final PersonValidator validator;
+
 	@Autowired
 	private PersonRepository repository;
 	
@@ -35,7 +36,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person get(String name) {
-		if(validator.requiredName(name)) {
+		if(!validator.requiredName(name)) {
 			throw new PersonException("Name is required"); 
 		}
 		return repository.get(name);
@@ -43,7 +44,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public void delete(String name) {
-		if(validator.requiredName(name)) {
+		if(!validator.requiredName(name)) {
 			throw new PersonException("Name is required"); 
 		}
 		repository.delete(name);
